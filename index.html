@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — Nexera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only light;
+  /* ---- Nexera, extracted from their live screens ---- */
+  --nx-bg:#FBF7F1; --nx-bg2:#FDF9F4; --nx-ink:#141414; --nx-txt:#2F2F33; --nx-muted:#7A7774; --nx-line:#E7E1D8;
+  --nx-olive:#9A9800; --nx-olive2:#B8B514; --nx-olive-dk:#7C7A00; --nx-orange:#E8762E; --nx-goalbg:#FDEBDA; --nx-goalline:#F5C9A2;
+  --nx-peri:#6E7FD8; --nx-plum:#28222C; --nx-black:#121212; --nx-card:#F6F2EC; --nx-red:#D9302C;
+  --nx-before:#E9E9EC; --nx-after:#EEF6EC;
+  --r-ctl:18px; --r-media:16px;
+  /* ---- the report shell, in Nexera's own palette ---- */
+  --bg:#FBF7F1; --bg2:#FFFFFF; --surf:#FFFFFF;
+  --hair:rgba(20,20,20,.09); --hair2:rgba(20,20,20,.16);
+  --ink:#141414; --ink2:#47454A; --ink3:#86827E;
+  --accent:#121212; --accent-lift:#7C7A00;
+  --panel:#FFFFFF; --panel-ink:#141414; --panel-muted:#5F5C59; --panel-line:#ECE7E0;
+  --accent-ink:#6E6C00;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 20px}}
+.nav{position:sticky;top:0;z-index:70;background:rgba(251,247,241,.86);backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 20px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600}
+.nav-brand .mk{width:26px;height:26px;flex:none;display:block;border-radius:7px;overflow:hidden;border:1px solid var(--hair)}
+.nav-brand .mk img{width:26px;height:26px;display:block}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-links{margin-left:auto;display:flex;gap:2px}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink3)}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#fff;box-shadow:0 1px 4px rgba(20,20,20,.08)}
+@media(max-width:640px){.nav-brand span{display:none}}
+.view{display:none}.view.on{display:block}
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);width:1100px;height:640px;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(154,152,0,.16),transparent 72%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(40% 50% at 8% 20%,rgba(232,118,46,.12),transparent 70%),radial-gradient(38% 45% at 92% 18%,rgba(110,127,216,.12),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-size:76px;line-height:.98;font-weight:700;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;color:var(--ink2);max-width:600px;margin:0 auto}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3)}
+.hero .meta b{color:var(--ink2);font-weight:600}
+.stats{display:flex;justify-content:center;margin:70px auto 0;max-width:760px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(154,152,0,.18);display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2)}
+.fb-i p b{color:var(--ink);font-weight:700}
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:700;letter-spacing:-.035em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px}
+.sec p.body b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--hair)}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);box-shadow:0 2px 10px rgba(20,20,20,.04);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:700;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2)}
+.ideas{display:flex;flex-direction:column;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.7)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:700;color:var(--ink3);padding-top:4px}
+.idea h3{font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-size:19px;font-weight:700;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;font-weight:600;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;box-shadow:0 2px 10px rgba(20,20,20,.04);padding:40px 44px;margin-top:44px;display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2)}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:700;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.cta-row{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;margin-top:52px}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--nx-black);color:#fff;font-size:15px;font-weight:700;padding:15px 26px;border-radius:30px}
+.bigbtn:hover{filter:brightness(1.3)}
+.bigbtn svg{width:15px;height:15px}
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--hair2);font-size:14px;font-weight:700;padding:9px 20px 9px 9px;border-radius:30px;box-shadow:0 2px 12px rgba(20,20,20,.06)}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:var(--nx-olive);display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;border-radius:46px;box-shadow:0 0 0 1.5px #DCD5CB,0 34px 70px -22px rgba(20,20,20,.35)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--nx-bg);color-scheme:only light}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:700 15px/1 'Inter',sans-serif;color:#111}
+.sbar.light{color:#fff}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:56;pointer-events:none}
+.homebar.light{background:rgba(255,255,255,.9)}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--nx-bg)}
+
+/* ============ phone screens — Nexera's system, all prefixed scr-/nx- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:linear-gradient(180deg,var(--nx-bg),var(--nx-bg2));color:var(--nx-ink);font-family:'Inter',-apple-system,sans-serif;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:56px 22px 0;position:relative;z-index:2}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 16px;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-foot{flex:none;padding:10px 16px 26px;position:relative;z-index:2}
+
+/* loader */
+.nx-lh{font-size:31px;font-weight:800;letter-spacing:-.02em;text-align:center;margin-top:76px}
+.nx-ring{position:relative;width:292px;height:292px;margin:56px auto 0}
+.nx-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.nx-ring img{position:absolute;left:50%;top:50%;width:104px;height:104px;transform:translate(-50%,-50%)}
+.nx-pct{font-size:31px;font-weight:400;text-align:center;margin-top:30px;color:#2C2C30}
+.nx-step{font-size:16px;color:var(--nx-muted);text-align:center;margin-top:2px}
+.nx-sline{font-size:17px;font-weight:700;text-align:center;margin-top:8px;min-height:24px}
+.nx-gchip{display:flex;justify-content:center;margin-top:12px}
+.nx-gchip span{background:var(--nx-goalbg);border:1px solid var(--nx-goalline);border-radius:14px;padding:6px 12px;font-size:14px;font-weight:600}
+
+/* payoff */
+.nx-ph{font-size:29px;line-height:1.16;font-weight:500;text-align:center;margin-top:30px;letter-spacing:-.015em}
+.nx-ph b{font-weight:700}
+.nx-ph em{font-style:normal;font-weight:700;color:var(--nx-orange)}
+.nx-ps{font-size:15.5px;line-height:1.5;text-align:center;margin:12px 6px 0;color:var(--nx-txt)}
+.nx-goal{margin-top:22px;background:var(--nx-goalbg);border:1px solid var(--nx-goalline);border-radius:18px;padding:10px 12px;text-align:center}
+.nx-goal small{display:block;font-size:14.5px;font-weight:600;color:var(--nx-orange);letter-spacing:.02em}
+.nx-goal b{display:block;font-size:21px;font-weight:700;margin-top:2px}
+.nx-curve{position:relative;height:262px;margin-top:6px}
+.nx-curve svg{position:absolute;inset:0;width:100%;height:100%}
+.nx-tag{position:absolute;padding:5px 11px;border-radius:9px;font-size:14px;font-weight:600;color:#fff}
+.nx-date{position:absolute;font-size:15px;font-weight:600;color:var(--nx-peri)}
+.nx-end{position:absolute;right:4px;top:12px;text-align:right}
+.nx-end b{display:inline-block;background:var(--nx-olive);color:#fff;border-radius:9px;padding:5px 11px;font-size:14px;font-weight:600}
+.nx-end span{display:block;font-size:13px;color:var(--nx-olive-dk);font-weight:600;margin-top:5px}
+.nx-disc{font-size:11.5px;line-height:1.4;color:var(--nx-muted);text-align:center;margin:0 4px 8px}
+.nx-cont{display:block;width:100%;height:56px;border-radius:18px;background:var(--nx-plum);color:#fff;font:500 20px/1 'Inter',sans-serif}
+
+/* paywall */
+.scr--pay{background:#FBF8F3}
+.nx-x{position:absolute;left:22px;top:66px;width:42px;height:42px;border-radius:50%;background:#F1EEEA;display:grid;place-items:center;color:#9A9794;z-index:5}
+.nx-x svg{width:18px;height:18px}
+.nx-people{display:block;width:calc(100% + 32px);margin:0 -16px;height:150px;object-fit:cover;object-position:50% 40%}
+.nx-ba{display:grid;grid-template-columns:1fr 1fr;margin:-2px 2px 0}
+.nx-ba div{padding:10px 10px 8px 14px}
+.nx-ba .b{background:var(--nx-before)}
+.nx-ba .a{background:var(--nx-after);border-radius:0 0 40px 0}
+.nx-ba h4{font-size:18px;font-weight:700;text-align:center;margin-bottom:4px}
+.nx-ba p{display:flex;gap:10px;align-items:center;font-size:14.5px;line-height:1.18;padding:4px 0}
+.nx-ba p i{font-style:normal;font-size:20px;font-weight:700;width:18px;flex:none}
+.nx-ba .b i{color:var(--nx-red)} .nx-ba .a i{color:var(--nx-olive)}
+.nx-glab{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--nx-orange);text-align:center;margin-top:12px;text-transform:uppercase}
+.nx-gh{font-size:28px;font-weight:700;letter-spacing:-.02em;text-align:center;margin-top:2px;line-height:1.15}
+.nx-gs{font-size:15px;line-height:1.4;text-align:center;margin:6px 4px 0;color:var(--nx-txt)}
+.nx-plans{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.nx-plan{position:relative;background:var(--nx-card);border:1.5px solid var(--nx-line);border-radius:18px;padding:13px 8px 10px;text-align:center}
+.nx-plan.on{border:2px solid var(--nx-olive)}
+.nx-plan .t{display:block;font-size:18px;font-weight:500}
+.nx-plan .p{display:block;font-size:22px;font-weight:600;margin-top:8px}
+.nx-plan .w{display:block;font-size:15px;color:var(--nx-txt)}
+.nx-plan .sv{display:block;font-size:13px;font-weight:700;color:var(--nx-olive-dk);margin-top:4px}
+.nx-best{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--nx-olive);color:#F7F2D6;font:600 13px/1 'Inter',sans-serif;padding:5px 12px;border-radius:12px;white-space:nowrap;letter-spacing:.04em}
+.nx-pcta{display:flex;align-items:center;justify-content:center;position:relative;width:100%;height:58px;border-radius:29px;background:var(--nx-black);color:#fff;font:600 19px/1 'Inter',sans-serif}
+.nx-pcta svg{position:absolute;right:22px;width:18px;height:18px}
+.nx-auto{font-size:14.5px;text-align:center;margin-top:8px;color:var(--nx-txt)}
+.nx-legal{display:flex;justify-content:space-around;margin-top:6px}
+.nx-legal a{font-size:15px;color:#9B9894;text-decoration:none}
+
+/* offer on close */
+.scr--offer{background:linear-gradient(180deg,#FBF7F1,#F6F1E6)}
+.nx-oh{font-size:29px;line-height:1.16;font-weight:700;text-align:center;letter-spacing:-.02em;margin-top:34px}
+.nx-os{font-size:15.5px;line-height:1.45;text-align:center;margin:10px 6px 0;color:var(--nx-txt)}
+.nx-ocard{position:relative;margin-top:30px;background:var(--nx-card);border:2px solid var(--nx-olive);border-radius:20px;padding:26px 18px 20px;text-align:center}
+.nx-ocard .t{font-size:19px;font-weight:500}
+.nx-ocard .p{font-size:40px;font-weight:700;letter-spacing:-.02em;margin-top:10px}
+.nx-ocard .s{font-size:15px;color:var(--nx-muted);margin-top:4px}
+.nx-ocard .s s{color:#A8A39C}
+.nx-ocard .w{font-size:15px;color:var(--nx-txt);margin-top:6px}
+.nx-path{margin-top:22px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;font-size:13.5px;font-weight:600}
+.nx-path i{display:block;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--nx-olive2),var(--nx-olive))}
+.nx-path span:first-child{color:var(--nx-peri)} .nx-path span:last-child{color:var(--nx-olive-dk)}
+.nx-toast{position:absolute;left:20px;right:20px;bottom:130px;z-index:80;background:rgba(20,20,20,.94);color:#fff;border-radius:14px;padding:12px 14px;font-size:13.5px;text-align:center;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+.nx-toast.on{opacity:1;transform:none}
+
+/* dark mode — an approximation: Nexera ships light and no dark frames exist */
+.phone-in.dark{--nx-bg:#141312;--nx-bg2:#171614;--nx-ink:#F2EEE8;--nx-txt:#CFCAC2;--nx-muted:#958F87;--nx-line:#2E2B27;--nx-card:#1F1D1A;--nx-goalbg:#2E2218;--nx-goalline:#5A3E26;--nx-before:#22222A;--nx-after:#1C261C;--nx-plum:#F2EEE8;--nx-black:#F2EEE8;background:var(--nx-bg)}
+.phone-in.dark .screenwrap,.phone-in.dark .scr--pay{background:var(--nx-bg)}
+.phone-in.dark .scr--offer{background:linear-gradient(180deg,#141312,#1A1814)}
+.phone-in.dark .nx-cont,.phone-in.dark .nx-pcta{color:#141312}
+.phone-in.dark .nx-ring img{filter:invert(1)}
+.phone-in.dark .nx-people{filter:brightness(.85)}
+.phone-in.dark .nx-x{background:#2A2825;color:#BDB7AE}
+.phone-in.dark .nx-pct{color:#E6E1DA}
+.phone-in.dark .ringbg{stroke:#2E2B27}
+
+/* prototype toolbar, walkthrough, QR */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+.seg{display:inline-flex;align-items:center;background:#fff;border:1px solid #E4DED5;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:600 12px/1 'Inter',sans-serif;color:var(--ink2)}
+.seg button.on{background:var(--ink);color:#fff}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:var(--nx-olive);color:#fff;font:700 12px/1 'Inter',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--hair);border-radius:16px;padding:14px 14px 12px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(20,20,20,.07)}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#EEF0F1}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--nx-olive);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;color:var(--ink);font-weight:500}
+.demo-cap button{font:700 12px/1 'Inter',sans-serif;color:var(--ink2);padding:7px 10px;border-radius:12px;border:1px solid #E4DED5;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(20,20,20,.26);border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(20,20,20,.4)}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:10px 16px 10px 10px;text-align:left}
+.qr img{width:135px;height:135px;display:block;image-rendering:pixelated;border-radius:6px}
+.qr span{font-size:12.5px;line-height:1.45;color:var(--ink2)}
+.qr b{display:block;color:var(--ink);font-size:13.5px}
+@media(max-width:1080px){.qr{display:none}}
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3}
+#view-proto .ctl{order:4} #view-proto .chiphint{order:5} #view-proto .qr{order:6}
+.cta-row .qr{order:2}
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:14px}
+  #view-proto .nx-lh{margin-top:30px} #view-proto .nx-ring{width:240px;height:240px;margin-top:30px}
+  #view-proto .nx-ph{margin-top:10px} #view-proto .nx-curve{height:230px}
+  #view-proto .nx-x{top:14px}
+  #view-proto .nx-people{height:92px;object-position:50% 25%}
+  #view-proto .scr-foot{padding-bottom:18px}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .ctl{order:5;padding:0 12px}
+  #view-proto .chiphint{order:6}
+}
+.chips,.ctl{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto;align-items:center}
+.ctl span{font:700 10px/1 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-right:2px}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #E4DED5;background:#fff;font:600 12px/1 'Inter',sans-serif;color:var(--ink2)}
+.chip:hover{color:var(--ink);border-color:#CFC7BC}
+.chip.offer{border-style:dashed;border-color:var(--nx-olive);color:var(--accent-lift)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff;border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);max-width:430px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:700;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E2C2A;margin:16px 0 0}
+.pn-hyp b{font-weight:700;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:700;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E2C2A;font-weight:700}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:26px 0}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="nav"><div class="nav-in">
+  <div class="nav-brand"><span class="mk"><img src="img/icon.png" alt="Nexera"></span><b>Growth Audit</b><span>· Nexera</span></div>
+  <div class="nav-links"><button class="on" data-view="over">Overview</button><button data-view="proto">Prototype</button></div>
+</div></div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+<div class="hero"><div class="wrap">
+  <div class="eyebrow">Growth Audit · October 2026</div>
+  <h1>Nexera</h1>
+  <p class="lede">Five ideas to unlock more revenue from the traffic you already have.</p>
+  <div class="meta">Prepared by <b>Adapty</b> · based on your live iOS flow and your App Store listing</div>
+  <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Watch the 30-second walkthrough</button></div>
+  <div class="stats">
+    <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+    <div class="stat"><b>5</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+    <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+  </div>
+  <div class="fb">
+    <div class="fb-k">Built in Adapty Flow Builder</div>
+    <div class="fb-i"><span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p></div>
+    <div class="fb-i"><span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p></div>
+  </div>
+</div></div>
+
+<div class="sec"><div class="wrap">
+  <div class="sec-k">What this is</div>
+  <h2>We opened Nexera the way a new learner does, then rebuilt the parts we think are leaving money on the table.</h2>
+  <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we get to see what actually moves conversion and ARPU across the market rather than inside one app. We pointed that at Nexera: installed it, went through the end of onboarding — the loader, your learning plan and the paywall — read your App Store listing, and looked for gaps between what you already have and what you currently show people.</p>
+  <p class="body">What follows is five ideas — not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+  <div class="notes">
+    <div class="note"><h4>We did not redesign your app</h4><p>Every screen in the prototype is yours — the olive ring and your mark, the goal card and the plan curve, the Before / After illustration, your two plan cards with BEST OFFER and the black Continue. Only the order and a few lines changed, using things you already have but do not show at the right moment.</p></div>
+    <div class="note"><h4>You may have tested some of this</h4><p>We are working from the outside, so we cannot see your experiment history. If one of these is something you have already run, tell us — we will go deeper on the rest rather than repeat it.</p></div>
+  </div>
+</div></div>
+
+<div class="rule"></div>
+
+<div class="sec"><div class="wrap">
+  <div class="sec-k">The five ideas</div>
+  <h2>Ranked by what we would test first.</h2>
+  <p class="body">Each one links straight to the screen in the prototype.</p>
+  <div class="ideas">
+    <button class="idea" data-jump="paywall"><span class="no">01</span><span>
+      <h3>Put their goal on the paywall</h3>
+      <p>One screen earlier, a card says “Your selected goal: Learn AI for a side hustle”. Then the paywall says “Get Full Access” to everyone. Carry the goal card onto the paywall, above the plans.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>CR +15–20%</b><span>to purchase</span></span></button>
+    <button class="idea" data-jump="payoff"><span class="no">02</span><span>
+      <h3>End the plan curve on Day 28</h3>
+      <p>The curve starts at “Now · Oct 15” and runs off the edge with no end point. Your own listing promises a 28-Day Structured AI Challenge that ends in an AI certification. Put that date and that certificate at the top of the curve.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>CR +10–20%</b><span>to purchase</span></span></button>
+    <button class="idea" data-jump="offer"><span class="no">03</span><span>
+      <h3>On close, offer your Annual Promo price</h3>
+      <p>The paywall’s X ends the flow. Your store already lists an Annual Promo Subscription at USD 39.99, against USD 69.99 for the yearly plan. Show it once, to the people who just said no.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>ARPU +10–15%</b><span>second chance</span></span></button>
+    <button class="idea" data-jump="paywall"><span class="no">04</span><span>
+      <h3>Show what the year saves</h3>
+      <p>The yearly card says BEST OFFER but never says by how much. USD 69.99 a year against 12 months at USD 9.99 is 42% less. Put “Save 42%” on the card.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>ARPU +10–15%</b><span>annual mix</span></span></button>
+    <button class="idea" data-jump="loader"><span class="no">05</span><span>
+      <h3>Name the goal while the path builds</h3>
+      <p>“Building your path” and “Generating your first path…” read the same for every learner. Show the goal they picked under the ring, so the wait reads as work done for them.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>CR +10–15%</b><span>to purchase</span></span></button>
+  </div>
+  <div class="band">
+    <div class="txt"><div class="lab">Potential outcome</div><p>Run together, these five carry one goal and one finish line — Day 28 — from the loader to the price, and give a no a real second offer. Potential result: revenue up to +30%.</p></div>
+    <div class="nums"><div><b>+25%</b><span>CR to purchase</span></div><div><b>+30%</b><span>Revenue</span></div></div>
+  </div>
+  <div class="cta-row">
+    <div class="qr"><img src="img/qr.svg" alt="QR code for the prototype"><span><b>Or open it on your phone</b>Scan to try the flow in your hand.</span></div>
+    <button class="bigbtn" data-view="proto">Open the prototype <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </div>
+</div></div>
+<div class="foot"><div class="wrap">Impact ranges are Adapty's expected effect from teardowns and A/B tests across subscription apps — not measured lift for Nexera. Every price, programme length and claim here and in the prototype comes from Nexera's own US App Store listing and in-app screens.</div></div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools">
+      <div class="seg" id="segLang"><button data-lang="en" class="on">EN</button><button data-lang="es">ES</button><button data-lang="de">DE</button></div>
+      <div class="seg" id="segTheme"><button data-theme="light" class="on">Light</button><button data-theme="dark">Dark</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button>
+    </div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar" id="sbar"><span>9:41</span><span class="glyphs">
+          <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+          <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg></span></div>
+        <div class="homebar" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="nx-toast" id="toast"></div>
+        <div class="screenwrap">
+
+<!-- LOADER -->
+<section class="scr" data-id="loader">
+  <div class="scr-top"></div>
+  <div class="scr-body">
+    <h2 class="nx-lh" data-t="l.h"></h2>
+    <div class="nx-ring"><svg viewBox="0 0 120 120"><circle class="ringbg" cx="60" cy="60" r="54" fill="none" stroke="#E4E1DC" stroke-width="5"/><circle id="ringArc" cx="60" cy="60" r="54" fill="none" stroke="#9A9800" stroke-width="5" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg><img src="img/mark.png" alt=""></div>
+    <p class="nx-pct" id="pct">0%</p>
+    <p class="nx-step" id="stepN"></p>
+    <p class="nx-sline" id="stepL"></p>
+    <div class="nx-gchip"><span id="loadGoal"></span></div>
+  </div>
+  <div class="scr-foot"></div>
+</section>
+
+<!-- PAYOFF -->
+<section class="scr" data-id="payoff">
+  <div class="scr-top"></div>
+  <div class="scr-body">
+    <h2 class="nx-ph" data-th="p.h"></h2>
+    <p class="nx-ps" data-t="p.s"></p>
+    <div class="nx-goal"><small data-t="p.goal"></small><b id="poGoal"></b></div>
+    <div class="nx-curve">
+      <svg viewBox="0 0 358 300" preserveAspectRatio="none"><path d="M30 196 C 90 168, 110 120, 170 112 S 250 120, 280 70 S 330 36, 340 34" fill="none" stroke="#B5B200" stroke-width="7" stroke-linecap="round"/><line x1="30" y1="200" x2="30" y2="252" stroke="#D9DA7A" stroke-width="3" stroke-dasharray="7 7"/><circle cx="30" cy="196" r="11" fill="#B9B700"/><circle cx="340" cy="34" r="9" fill="#9A9800"/></svg>
+      <span class="nx-tag" style="left:0;top:122px;background:#6E7FD8" data-t="p.now"></span>
+      <span class="nx-date" style="left:6px;top:226px" id="poNow"></span>
+      <div class="nx-end"><b id="poEnd"></b><span id="poEndS"></span></div>
+    </div>
+  </div>
+  <div class="scr-foot"><p class="nx-disc" data-t="p.disc"></p><button class="nx-cont" data-go="paywall" data-t="cont"></button></div>
+</section>
+
+<!-- PAYWALL -->
+<section class="scr scr--pay" data-id="paywall">
+  <button class="nx-x" id="payClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top" style="padding:52px 0 0"></div>
+  <div class="scr-body">
+    <img class="nx-people" src="img/people.jpg" alt="Before and after">
+    <div class="nx-ba"><div class="b"><h4 data-t="w.before"></h4><p><i>✕</i><span data-th="w.b1"></span></p><p><i>✕</i><span data-th="w.b2"></span></p><p><i>✕</i><span data-th="w.b3"></span></p></div>
+      <div class="a"><h4 data-t="w.after"></h4><p><i>✓</i><span data-th="w.a1"></span></p><p><i>✓</i><span data-th="w.a2"></span></p><p><i>✓</i><span data-th="w.a3"></span></p></div></div>
+    <p class="nx-glab" id="payGoal"></p>
+    <h2 class="nx-gh" data-t="w.h"></h2>
+    <p class="nx-gs" data-t="w.s"></p>
+    <div class="nx-plans" id="planList">
+      <button class="nx-plan" data-v="month"><span class="t" data-t="w.m"></span><span class="p">USD 9.99</span><span class="w" data-t="w.mw"></span></button>
+      <button class="nx-plan" data-v="year"><span class="nx-best" data-t="w.best"></span><span class="t" data-t="w.y"></span><span class="p">USD 69.99</span><span class="w" data-t="w.yw"></span><span class="sv" data-t="w.save"></span></button>
+    </div>
+    <div style="height:6px"></div>
+  </div>
+  <div class="scr-foot"><button class="nx-pcta" id="payCta"><span data-t="cont"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
+    <p class="nx-auto" data-t="w.auto"></p><div class="nx-legal"><a data-t="lg.t"></a><a data-t="lg.p"></a><a data-t="lg.r"></a></div></div>
+</section>
+
+<!-- OFFER ON CLOSE -->
+<section class="scr scr--offer sheet" data-id="offer">
+  <button class="nx-x" id="offClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top" style="padding-top:96px"></div>
+  <div class="scr-body">
+    <h2 class="nx-oh" data-th="o.h"></h2>
+    <p class="nx-os" id="offSub"></p>
+    <div class="nx-ocard"><span class="nx-best" data-t="o.tag"></span><p class="t" data-t="w.y"></p><p class="p">USD 39.99</p><p class="s"><span data-t="o.first"></span> · <s>USD 69.99</s></p><p class="w" data-t="o.w"></p></div>
+    <div class="nx-path"><span id="oNow"></span><i></i><span id="oEnd"></span></div>
+  </div>
+  <div class="scr-foot"><button class="nx-pcta" id="offerCta"><span data-t="o.cta"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button><p class="nx-auto" data-t="w.auto"></p></div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Stop</button></div>
+    <div class="chips" id="chips"></div>
+    <div class="ctl" id="ctlGoal"><span>Their goal</span></div>
+    <p class="chiphint">Jump to any screen — answers already filled in. Change the goal to see the loader, plan, paywall and offer follow.</p>
+    <div class="qr"><img src="img/qr.svg" alt="QR code for this prototype"><span><b>Open it on your phone</b>Scan to try the flow in your hand.</span></div>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+var LANGS=['en','es','de'];
+var T={
+ 'cont':["Continue","Continuar","Weiter"],
+ 'l.h':["Building your path","Creando tu ruta","Dein Lernpfad entsteht"],
+ 'l.s1':["Reading your goal","Leyendo tu objetivo","Dein Ziel wird gelesen"],
+ 'l.s2':["Picking lessons and AI tools","Eligiendo lecciones y herramientas de IA","Lektionen und KI-Tools werden gewählt"],
+ 'l.s3':["Generating your first path…","Generando tu primera ruta…","Dein erster Lernpfad wird erstellt…"],
+ 'l.step':["Step {n} of 3","Paso {n} de 3","Schritt {n} von 3"],
+ 'p.h':["Your personalized<br><b>Learning Plan</b> is <em>ready!</em>","Tu <b>plan de aprendizaje</b><br>personalizado está <em>¡listo!</em>","Dein persönlicher<br><b>Lernplan</b> ist <em>fertig!</em>"],
+ 'p.s':["We have carefully analyzed your answers and created your individual plan","Hemos analizado tus respuestas y creado tu plan individual","Wir haben deine Antworten ausgewertet und deinen individuellen Plan erstellt"],
+ 'p.goal':["YOUR SELECTED GOAL","TU OBJETIVO","DEIN ZIEL"],
+ 'p.now':["Now","Ahora","Jetzt"],
+ 'p.end':["Day 28 · {d}","Día 28 · {d}","Tag 28 · {d}"],
+ 'p.endS':["28-Day Challenge done · AI certificate","Reto de 28 días · certificado de IA","28-Tage-Challenge · KI-Zertifikat"],
+ 'p.disc':["Nexera is here to support your learning journey and help you build new skills and knowledge. Our courses are educational in nature and are not intended as financial or career advice. Since every learner is different, individual results may vary.","Nexera acompaña tu aprendizaje y te ayuda a desarrollar nuevas habilidades. Nuestros cursos son educativos y no constituyen asesoramiento financiero ni profesional. Cada persona es distinta y los resultados pueden variar.","Nexera begleitet dein Lernen und hilft dir, neue Fähigkeiten aufzubauen. Unsere Kurse dienen der Bildung und sind keine Finanz- oder Karriereberatung. Jeder lernt anders, Ergebnisse können variieren."],
+ 'w.before':["Before","Antes","Vorher"],'w.after':["After","Después","Nachher"],
+ 'w.b1':["No<br>AI direction","Sin rumbo<br>en IA","Keine<br>KI-Richtung"],'w.b2':["Scattered<br>learning","Aprendizaje<br>disperso","Verstreutes<br>Lernen"],'w.b3':["Tool<br>uncertainty","Dudas con<br>las herramientas","Unsicher bei<br>Tools"],
+ 'w.a1':["Personal<br>roadmap","Ruta<br>personal","Persönliche<br>Roadmap"],'w.a2':["Structured<br>training","Formación<br>estructurada","Strukturiertes<br>Training"],'w.a3':["Confident<br>AI usage","IA con<br>confianza","Sicher mit<br>KI"],
+ 'w.goal':["Your goal: {g}","Tu objetivo: {g}","Dein Ziel: {g}"],
+ 'w.h':["Get Full Access","Acceso completo","Vollzugriff"],
+ 'w.s':["Unlock your 28-day path: well-structured 15-minute lessons.","Tu ruta de 28 días: lecciones de 15 minutos.","Dein 28-Tage-Pfad: Lektionen à 15 Minuten."],
+ 'w.m':["1 month plan","Plan de 1 mes","1 Monat"],'w.y':["1 year plan","Plan de 1 año","1 Jahr"],
+ 'w.mw':["2,50 US$ / week","2,50 US$ / semana","2,50 US$ / Woche"],'w.yw':["1,35 US$ / week","1,35 US$ / semana","1,35 US$ / Woche"],
+ 'w.save':["Save 42%","Ahorra 42 %","42 % sparen"],
+ 'w.best':["BEST OFFER","MEJOR OFERTA","BESTES ANGEBOT"],
+ 'w.auto':["Auto-renewal plan. Cancel anytime","Renovación automática. Cancela cuando quieras","Automatische Verlängerung. Jederzeit kündbar"],
+ 'lg.t':["Terms","Términos","AGB"],'lg.p':["Privacy","Privacidad","Datenschutz"],'lg.r':["Restore","Restaurar","Wiederherstellen"],
+ 'o.h':["Before you go:<br>your first year for less","Antes de irte:<br>tu primer año por menos","Bevor du gehst:<br>dein erstes Jahr günstiger"],
+ 'o.sub':["Finish the 28-Day Challenge for “{g}” — and keep every course for a year.","Completa el reto de 28 días para «{g}» y conserva todos los cursos un año.","Schließe die 28-Tage-Challenge für „{g}“ ab – und behalte alle Kurse ein Jahr."],
+ 'o.tag':["ANNUAL PROMO · 43% OFF","PROMO ANUAL · −43 %","JAHRES-PROMO · −43 %"],
+ 'o.first':["for the year","por el año","für das Jahr"],
+ 'o.w':["0,77 US$ / week","0,77 US$ / semana","0,77 US$ / Woche"],
+ 'o.cta':["Get the year – USD 39.99","Obtener el año – USD 39.99","Jahr sichern – USD 39.99"],
+ 'toast':["The App Store purchase sheet opens here.","Aquí se abre la hoja de compra de App Store.","Hier öffnet sich das App-Store-Kaufblatt."]
+};
+var GOALS={
+ side:{e:'🚀',l:['Learn AI for a side hustle','Aprender IA para un proyecto extra','KI für ein Nebeneinkommen lernen']},
+ career:{e:'📈',l:['Grow my career with AI','Crecer en mi carrera con IA','Mit KI beruflich wachsen']},
+ faster:{e:'⚡',l:['Work faster with ChatGPT','Trabajar más rápido con ChatGPT','Schneller arbeiten mit ChatGPT']},
+ business:{e:'🤖',l:['Automate my business','Automatizar mi negocio','Mein Business automatisieren']}
+};
+var LOC={en:'en-US',es:'es-ES',de:'de-DE'};
+var S0={lang:'en',theme:'light'};
+function defaults(){ return {lang:S0.lang,theme:S0.theme,goal:'side',plan:'year'}; }
+var S=defaults();
+function L(){ return LANGS.indexOf(S.lang); }
+function t(k,v){ var s=(T[k]||[k])[L()]; if(v) Object.keys(v).forEach(function(x){ s=s.split('{'+x+'}').join(v[x]); }); return s; }
+function gl(){ return GOALS[S.goal].l[L()]; }
+function fmt(d){ return new Intl.DateTimeFormat(LOC[S.lang],{month:'short',day:'numeric'}).format(d); }
+function applyStatic(){ document.documentElement.lang=S.lang;
+  document.querySelectorAll('[data-t]').forEach(function(el){ el.textContent=t(el.dataset.t); });
+  document.querySelectorAll('[data-th]').forEach(function(el){ el.innerHTML=t(el.dataset.th); });
+  var c=document.getElementById('ctlGoal'); c.querySelectorAll('.chip').forEach(function(b){ b.remove(); });
+  Object.keys(GOALS).forEach(function(k){ var b=document.createElement('button'); b.className='chip'; b.dataset.v=k; b.textContent=GOALS[k].e+' '+GOALS[k].l[L()]; b.onclick=function(){ stopDemo(); S.goal=k; syncScreen(); if(cur==='loader') runLoader(); }; c.appendChild(b); }); }
+function syncScreen(){ var g=GOALS[S.goal], now=new Date(), end=new Date(now.getTime()+28*864e5);
+  document.querySelectorAll('#ctlGoal .chip').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.goal); });
+  document.getElementById('loadGoal').textContent=g.e+' '+gl();
+  document.getElementById('poGoal').textContent=g.e+gl();
+  document.getElementById('poNow').textContent=fmt(now);
+  document.getElementById('poEnd').textContent=t('p.end',{d:fmt(end)});
+  document.getElementById('poEndS').textContent=t('p.endS');
+  document.getElementById('payGoal').textContent=g.e+' '+t('w.goal',{g:gl()});
+  document.querySelectorAll('#planList .nx-plan').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.plan); });
+  document.getElementById('offSub').textContent=t('o.sub',{g:gl()});
+  document.getElementById('oNow').textContent=t('p.now')+' · '+fmt(now);
+  document.getElementById('oEnd').textContent=t('p.end',{d:fmt(end)});
+}
+var ORDER=['loader','payoff','paywall','offer'];
+var LABEL={loader:'Loader',payoff:'Your plan',paywall:'Paywall',offer:'Offer on close'};
+var scr={}, hist=[], cur='loader', lt=[];
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+function chrome(){ var dark=S.theme==='dark'; document.getElementById('sbar').classList.toggle('light',dark); document.getElementById('homebar').classList.toggle('light',dark); }
+function enter(id){ chrome(); paintChips(); paintPanel(); clearLoad(); if(id==='loader') runLoader(); }
+function go(id){ if(id===cur) return; var from=scr[cur], to=scr[id]; hist.push(cur);
+  from.classList.remove('is-active'); if(!to.classList.contains('sheet')) from.classList.add('is-past'); else from.classList.add('is-active');
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  to.classList.remove('is-past'); to.classList.add('is-active'); cur=id; enter(id); }
+function jump(id){ var i=ORDER.indexOf(id);
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist=ORDER.slice(0,i<0?0:i); if(id==='offer') scr.paywall.classList.add('is-active');
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); enter(id); }
+function paintChips(){ var c=document.getElementById('chips');
+  if(!c.children.length) ORDER.forEach(function(id){ var b=document.createElement('button'); b.className='chip'+(id==='offer'?' offer':''); b.textContent=LABEL[id]; b.dataset.id=id; b.onclick=function(){ stopDemo(); jump(id); }; c.appendChild(b); });
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on',b.dataset.id===cur); }); }
+function clearLoad(){ lt.forEach(clearTimeout); lt=[]; }
+function runLoader(){ clearLoad(); var k=demo.on?0.55:1, dur=5200*k, t0=Date.now(), arc=document.getElementById('ringArc');
+  function setStep(n){ document.getElementById('stepN').textContent=t('l.step',{n:n}); document.getElementById('stepL').textContent=t('l.s'+n); }
+  setStep(1);
+  (function tick(){ var p=Math.min(1,(Date.now()-t0)/dur); arc.style.strokeDashoffset=(339.3*(1-p)).toFixed(1); document.getElementById('pct').textContent=Math.round(p*100)+'%';
+    setStep(p<.34?1:(p<.67?2:3));
+    if(p<1 && cur==='loader') lt.push(setTimeout(tick,60)); else if(p>=1 && cur==='loader' && !paused) lt.push(setTimeout(function(){ if(cur==='loader') go('payoff'); },500)); })(); }
+var paused=false;
+var toastT=null;
+function toast(){ var el=document.getElementById('toast'); el.textContent=t('toast'); el.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove('on'); },1600); }
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ go(b.dataset.go); }); });
+document.querySelectorAll('#planList .nx-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click',function(){ go('offer'); });
+document.getElementById('offClose').addEventListener('click',function(){ jump('loader'); });
+document.getElementById('payCta').addEventListener('click',toast);
+document.getElementById('offerCta').addEventListener('click',toast);
+function setSeg(id,a,v){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on',b.dataset[a]===v); }); }
+function setLang(l){ S.lang=l; S0.lang=l; setSeg('segLang','lang',l); applyStatic(); syncScreen(); paintPanel(); }
+function setTheme(th){ S.theme=th; S0.theme=th; document.getElementById('phoneIn').classList.toggle('dark',th==='dark'); setSeg('segTheme','theme',th); chrome(); }
+document.querySelectorAll('#segLang button').forEach(function(b){ b.addEventListener('click',function(){ stopDemo(); setLang(b.dataset.lang); }); });
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger'), phoneIn=document.getElementById('phoneIn');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function cap(x){ document.getElementById('demoTxt').textContent=x; }
+async function tap(sel,tok){ if(demo.tok!==tok) throw 0; var el=document.querySelector(sel); if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160); if(demo.tok!==tok) throw 0; }
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  var keep={lang:S.lang,theme:S.theme}; S=defaults(); S.lang=keep.lang; S.theme=keep.theme; applyStatic();
+  document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/290)+'%'; },200);
+  jump('loader');
+  (async function(){ try{
+    cap('The loader names the goal they picked while the path builds.'); await pause(3400,tok);
+    cap('Their plan now has a finish line: Day 28 and your AI certificate.'); await pause(3200,tok);
+    await tap('[data-id=payoff] .nx-cont',tok);
+    cap('The paywall carries their goal, and the year says what it saves.'); await pause(2400,tok);
+    var b=scr.paywall.querySelector('.scr-body'); b.scrollTo({top:b.scrollHeight,behavior:'smooth'}); await pause(900,tok);
+    await tap('#planList [data-v="month"]',tok); await pause(600,tok); await tap('#planList [data-v="year"]',tok); await pause(500,tok);
+    cap('They close it. One second offer, at your Annual Promo price.'); b.scrollTo({top:0}); await tap('#payClose',tok); await pause(3000,tok);
+    cap('Pick another goal under the phone and every screen follows.'); S.goal='career'; syncScreen(); await pause(2200,tok);
+    finger.classList.remove('show'); stopDemo();
+  }catch(e){ if(e!==0) console.error(e); } })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press'); document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+</script>
+<script>
+var PANEL={
+loader:{n:5,t:'Name the goal while the path builds',
+ hyp:'Try showing the goal they picked under your ring and naming each step, <b>because today “Building your path” and “Generating your first path…” read the same for everyone</b>. Pick another goal under the phone and this screen changes.',
+ kept:'Your olive ring around your mark, the percentage, “Step 3 of 3” and “Generating your first path…”.',
+ out:'CR +10–15%'},
+payoff:{n:2,t:'End the plan curve on Day 28',
+ hyp:'Try ending your curve on Day 28 with the date and “AI certificate”, <b>because the curve today starts at “Now” and runs off the edge, while your own listing promises a 28-Day Structured AI Challenge that ends in a certification</b>. The date is today plus 28 days, not a forecast.',
+ kept:'Your headline with the orange “ready!”, the goal card, the olive curve with the Now tag and date, your disclaimer and the dark Continue.',
+ out:'CR +10–20%'},
+paywall:{n:1,t:'Put their goal on the paywall',
+ hyp:'Try your goal card’s line above “Get Full Access”, and “Unlock your 28-day path” in the subline, <b>because one screen earlier the app showed their goal, and the paywall then speaks to nobody in particular</b>.',
+ n2:4,
+ hyp2:'Try “Save 42%” on the yearly card, <b>because BEST OFFER does not say how much: USD 69.99 a year against 12 months at USD 9.99 is 42% less</b>.',
+ out2:'ARPU +10–15%',
+ kept:'Your Before / After illustration and table, the two plan cards with BEST OFFER, the black Continue with its chevron, “Auto-renewal plan. Cancel anytime” and the legal links. Prices are your US App Store prices.',
+ out:'CR +15–20%'},
+offer:{n:3,t:'On close, offer your Annual Promo price',
+ hyp:'Try one screen from the paywall’s X with your Annual Promo Subscription at USD 39.99, <b>because today closing the paywall ends the flow, and that price is already on your store listing next to the USD 69.99 yearly plan</b>.',
+ kept:'Your plan-card shape with the olive border and olive tag, your black Continue and your auto-renewal line. The Now → Day 28 line reuses your curve’s colours.',
+ out:'ARPU +10–15%'}
+};
+function outBlock(l,v){ return '<div class="pn-out"><div class="lab">'+l+'</div><div class="v">'+v+'</div></div>'; }
+function paintPanel(){ var d=PANEL[cur]; if(!d) return; var h='';
+  h+='<div class="pn-n">Idea '+d.n+' of 5</div><h3 class="pn-t">'+d.t+'</h3><p class="pn-hyp">'+d.hyp+'</p>'+outBlock('Potential outcome · based on Adapty data',d.out);
+  if(d.hyp2) h+='<div class="pn-sep"></div><div class="pn-n">Idea '+d.n2+' of 5</div><p class="pn-hyp" style="margin-top:12px">'+d.hyp2+'</p>'+outBlock('Potential outcome · based on Adapty data',d.out2);
+  h+='<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>';
+  if(S.lang!=='en') h+='<div class="pn-kept"><b>Language.</b> Screens are shown in '+(S.lang==='es'?'Spanish':'German')+', two of the five languages Nexera ships in. Translated by us; store prices stay as published in US dollars.</div>';
+  h+='<div class="pn-foot">Ranges are Adapty’s expected effect from tests across 30,000+ subscription apps — not measured lift for Nexera. Prices, the 28-day programme and claims come from your own published material.</div>';
+  document.getElementById('panel').innerHTML=h; }
+function showView(v){ if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); }); document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on',b.dataset.view===v); }); window.scrollTo(0,0);
+  if(v==='proto' && cur==='loader') runLoader(); }
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); jump(b.dataset.jump); }); });
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+applyStatic(); scr.loader.classList.add('is-active'); syncScreen(); chrome(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+</script>
+</body>
+</html>
